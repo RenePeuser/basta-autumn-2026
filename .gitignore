@@ -62,3 +62,6 @@ nunit-*.xml
 
 # Claude Code (local settings)
 .claude/settings.local.json
+
+# Temporary slide renderings
+.tmp-*
