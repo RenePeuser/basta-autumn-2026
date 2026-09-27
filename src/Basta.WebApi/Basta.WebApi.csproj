@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <NoWarn>CA1515;CA1031;CA1032;CA1062;CA1002;CA2007;CA2263;IDE0005;IDE0011;IDE0055;IDE0060;IDE0330</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Asp.Versioning.Http" />
+      <PackageReference Include="Extensions.Pack" />
+      <PackageReference Include="Siemens.AspNet.ErrorHandling" />
+      <PackageReference Include="Siemens.AspNet.MinimalApi.Sdk" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Basta.Analyzer\Basta.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+      <ProjectReference Include="..\Basta.CodeFixes\Basta.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+</Project>

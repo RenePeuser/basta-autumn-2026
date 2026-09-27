@@ -1,0 +1,308 @@
+root = true
+###############################################################
+# .editorconfig – Code Rules Demo Project
+#
+# Purpose:
+#   - Provide consistent formatting across Windows + Linux
+#   - Ensure CI reproducibility (dotnet-format --verify-no-changes)
+#   - Avoid BOM and CRLF issues in Linux-based pipelines
+#   - Enforce .NET / C# coding conventions across all IDEs
+#   - Keep ReSharper aligned with Roslyn analyzers
+###############################################################
+
+# This file is the root; parent directories will not be searched.
+
+
+###############################################################
+# Global Editor Settings (apply to all file types)
+###############################################################
+[*]
+# UTF-8 without BOM ensures consistent Git diffs and avoids CI issues.
+charset = utf-8
+
+# LF is required to avoid Windows vs Linux line ending mismatches in CI.
+end_of_line = lf
+
+# Use spaces for indentation.
+indent_style = space
+indent_size = 4
+
+# Visual tab width (purely UI; does not affect file content).
+tab_width = 4
+
+# Ensures files always end with a newline; required by many tools.
+insert_final_newline = true
+
+###############################################################
+# Settings for code files (C#, VB)
+###############################################################
+[*.{cs,csx,vb,vbx}]
+# Force UTF-8 without BOM for all code files.
+charset = utf-8
+indent_size = 4
+
+
+###############################################################
+# .NET Coding Conventions
+# Controls qualification rules, initializer preferences, null handling,
+# and general .NET style guidelines that apply across languages.
+###############################################################
+[*.{cs,vb}]
+# Sort System.* usings first (Microsoft recommended style).
+dotnet_sort_system_directives_first = true
+
+# Prefer language keywords (int, string) over framework types.
+dotnet_style_predefined_type_for_locals_parameters_members = true:error
+dotnet_style_predefined_type_for_member_access = true:error
+
+# Do not require "this." qualification.
+dotnet_style_qualification_for_event = false:error
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_property = false:error
+
+# Prefer modern compact expressions.
+dotnet_style_coalesce_expression = true:error
+dotnet_style_collection_initializer = true:error
+dotnet_style_explicit_tuple_names = true:error
+dotnet_style_null_propagation = true:error
+dotnet_style_object_initializer = true:error
+dotnet_style_prefer_auto_properties = true:error
+dotnet_style_prefer_conditional_expression_over_assignment = true:error
+dotnet_style_prefer_conditional_expression_over_return = true:error
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:error
+dotnet_style_prefer_inferred_tuple_names = true:error
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:error
+dotnet_style_readonly_field = true:error
+dotnet_style_prefer_simplified_boolean_expressions = true:error
+
+# Operators should appear at the beginning of continuation lines.
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+
+
+###############################################################
+# Naming Conventions – PascalCase constants
+###############################################################
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = error
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
+
+dotnet_naming_symbols.constant_fields.applicable_accessibilities = *
+dotnet_naming_symbols.constant_fields.applicable_kinds = field
+dotnet_naming_symbols.constant_fields.required_modifiers = const
+
+
+###############################################################
+# Analyzer Severities (global defaults and overrides)
+# Ensures consistent enforcement across IDE + CI.
+###############################################################
+[*.{cs,vb}]
+# Default severity for analyzers unless explicitly overridden.
+dotnet_analyzer_diagnostic.severity = warning
+
+# Common rules (performance, correctness, design)
+dotnet_diagnostic.ca1305.severity = error
+dotnet_diagnostic.ca1848.severity = none
+dotnet_diagnostic.ca1859.severity = error
+dotnet_diagnostic.ca1860.severity = none
+dotnet_diagnostic.ca1861.severity = error
+dotnet_diagnostic.ca2254.severity = none
+
+# MSTest analyzers (disabled unless needed)
+dotnet_diagnostic.mstest0015.severity = none
+dotnet_diagnostic.mstest0016.severity = none
+
+###############################################################
+# C# Coding Conventions – var usage, expression bodies, patterns
+###############################################################
+[*.cs]
+# Prefer 'var' everywhere when type is clear.
+csharp_style_var_elsewhere = true:error
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+
+# Expression-bodied members: enabled only for simple constructs.
+csharp_style_expression_bodied_accessors = true:error
+csharp_style_expression_bodied_constructors = false:error
+csharp_style_expression_bodied_indexers = true:error
+csharp_style_expression_bodied_lambdas = true:error
+csharp_style_expression_bodied_local_functions = false:error
+csharp_style_expression_bodied_methods = false:error
+csharp_style_expression_bodied_operators = false:error
+csharp_style_expression_bodied_properties = true:error
+
+# Pattern matching preferences.
+csharp_style_pattern_local_over_anonymous_function = true:error
+csharp_style_pattern_matching_over_as_with_null_check = true:error
+csharp_style_pattern_matching_over_is_with_cast_check = true:error
+
+# Modern syntax preferences.
+csharp_style_conditional_delegate_call = true:error
+csharp_style_throw_expression = true:error
+
+# Enforce preferred modifier order.
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:error
+
+# Always require braces.
+csharp_prefer_braces = true:error
+
+# General expression simplifications.
+csharp_prefer_simple_default_expression = true:error
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:error
+csharp_style_deconstructed_variable_declaration = true:error
+csharp_style_inlined_variable_declaration = true:error
+
+# Namespace layout: always use block-scoped (not file-scoped).
+csharp_style_namespace_declarations = block_scoped:error
+
+# Additional preferences.
+csharp_style_prefer_method_group_conversion = true:error
+csharp_style_prefer_primary_constructors = true:error
+csharp_style_prefer_simple_property_accessors = true:error
+csharp_style_prefer_top_level_statements = true:error
+csharp_style_unused_value_expression_statement_preference = discard_variable:error
+csharp_prefer_simple_using_statement = true:error
+csharp_prefer_system_threading_lock = true:error
+
+##############################################
+# SWITCH-CASE BLOCK STYLE (match ReSharper) #
+##############################################
+
+# Case-Labels stehen NICHT eingerückt
+csharp_indent_switch_labels = false
+
+# Inhalt eines case-blocks wird eingerückt
+csharp_indent_case_contents = true
+csharp_indent_case_contents_when_block = true
+
+# Braces sollen NICHT am switch auf gleicher Spalte hängen, sondern shifted
+csharp_indent_braces = false
+
+# Verhindert, dass Roslyn Switch-Blocks zurück an den linken Rand zwingt
+csharp_new_line_before_open_brace = all
+
+
+###############################################################
+# C# Formatting Rules – whitespace, newlines, spaces
+###############################################################
+# Newline placement rules.
+csharp_new_line_before_catch = true
+csharp_new_line_before_else = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_open_brace = all
+csharp_new_line_between_query_expression_clauses = true
+
+# Indentation rules.
+csharp_indent_case_contents = true
+csharp_indent_labels = flush_left
+csharp_indent_switch_labels = true
+
+# Spacing behavior.
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_before_colon_in_inheritance_clause = true
+
+# Parentheses spacing rules.
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_parentheses = false
+
+# Preserve compact single-line constructs.
+csharp_preserve_single_line_blocks = true
+csharp_preserve_single_line_statements = true
+
+# Usings always outside namespace.
+csharp_using_directive_placement = outside_namespace:error
+
+
+###############################################################
+# C# Analyzer Overrides – Roslyn + StyleCop + internal rules
+###############################################################
+# Exception constructors, naming, API design.
+dotnet_diagnostic.ca1032.severity = error
+dotnet_diagnostic.ca1701.severity = error
+dotnet_diagnostic.ca1702.severity = error
+
+# Underscores allowed based on domain naming rules.
+dotnet_diagnostic.ca1707.severity = silent
+dotnet_diagnostic.ca1711.severity = silent
+dotnet_diagnostic.ca1716.severity = silent
+
+# Various performance and correctness rules.
+dotnet_diagnostic.ca1724.severity = none
+dotnet_diagnostic.ca1812.severity = none
+dotnet_diagnostic.ca1819.severity = error
+dotnet_diagnostic.ca1822.severity = none
+
+# Async rules.
+dotnet_diagnostic.ca2007.severity = warning
+dotnet_diagnostic.cs1591.severity = silent
+dotnet_diagnostic.cs1998.severity = error
+
+# Other useful rules.
+dotnet_diagnostic.cs9107.severity = error
+dotnet_diagnostic.ide0003.severity = error
+dotnet_diagnostic.ide0005.severity = error
+dotnet_diagnostic.ide0008.severity = error
+dotnet_diagnostic.ide0010.severity = none
+dotnet_diagnostic.ide0011.severity = error
+dotnet_diagnostic.ide0017.severity = suggestion
+dotnet_diagnostic.ide0022.severity = error
+dotnet_diagnostic.ide0028.severity = none
+dotnet_diagnostic.ide0037.severity = suggestion
+dotnet_diagnostic.ide0042.severity = suggestion
+dotnet_diagnostic.ide0045.severity = suggestion
+dotnet_diagnostic.ide0046.severity = suggestion
+dotnet_diagnostic.ide0050.severity = suggestion
+
+# **Formatting enforcement**
+# Crucial for CI consistency. Any mismatch becomes a build error.
+dotnet_diagnostic.ide0055.severity = error
+
+dotnet_diagnostic.ide0057.severity = suggestion
+dotnet_diagnostic.ide0058.severity = none
+dotnet_diagnostic.ide0066.severity = suggestion
+dotnet_diagnostic.ide0072.severity = suggestion
+dotnet_diagnostic.ide0090.severity = suggestion
+dotnet_diagnostic.ide0130.severity = silent
+
+# Modern language features.
+dotnet_diagnostic.ide0200.severity = none
+dotnet_diagnostic.ide0290.severity = error
+dotnet_diagnostic.ide0300.severity = suggestion
+dotnet_diagnostic.ide0301.severity = suggestion
+dotnet_diagnostic.ide0302.severity = suggestion
+dotnet_diagnostic.ide0303.severity = suggestion
+dotnet_diagnostic.ide0304.severity = suggestion
+dotnet_diagnostic.ide0305.severity = suggestion
+
+# StyleCop: One statement per line.
+dotnet_diagnostic.sa1107.severity = error
+
+
+###############################################################
+# ReSharper Settings
+# Reduced severity to avoid conflicts with Roslyn rules.
+###############################################################
+[*.cs]
+resharper_inconsistent_naming_highlighting = suggestion
+resharper_indent_anonymous_method_block = false
+resharper_wrap_before_await_keyword = false
+resharper_wrap_after_await_keyword = false
+resharper_place_await_on_new_line = false
+
+###############################################################
+# Json settings
+###############################################################
+[*.json]
+indent_size = 2
+indent_style = space

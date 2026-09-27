@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <!-- For distribution via NuGet (optional) / At the moment a POC -->
+        <IsPackable>false</IsPackable>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <NoWarn>$(NoWarn);IDE0007;IDE0019;IDE0055;IDE0160;IDE0022;IDE0100;IDE0025;IDE0290;RS2000;RS2001;RS2003;CA1068</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Argument.Check" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    </ItemGroup>
+</Project>

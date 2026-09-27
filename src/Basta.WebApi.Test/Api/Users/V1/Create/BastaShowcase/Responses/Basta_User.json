@@ -1,0 +1,25 @@
+{
+  "content": {
+    "headers": [
+      {
+        "key": "Content-Type",
+        "value": [
+          "application/json; charset=utf-8"
+        ]
+      }
+    ],
+    "value": {
+      "user": {
+        "id": "c0daeb10-f423-4ab7-bb84-3d7789b9f6d2",
+        "firstName": "Basta",
+        "lastName": "2026",
+        "email": "basta@2026.local",
+        "userType": "Developer"
+      }
+    }
+  },
+  "statusCode": "OK",
+  "headers": [],
+  "trailingHeaders": [],
+  "isSuccessStatusCode": true
+}

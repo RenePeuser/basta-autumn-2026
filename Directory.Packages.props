@@ -1,0 +1,34 @@
+<Project>
+  <ItemGroup>
+    <PackageVersion Include="Argument.Check" Version="5.0.6" />
+    <PackageVersion Include="Asp.Versioning.Abstractions" Version="10.2.1" />
+    <PackageVersion Include="Asp.Versioning.Http" Version="10.2.3" />
+    <PackageVersion Include="AspNetCore.Simple.MsTest.Sdk" Version="10.0.0-alpha.182" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="Extensions.Pack" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.13" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Build" Version="18.4.0" />
+    <PackageVersion Include="Microsoft.Build.Framework" Version="18.4.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageVersion Include="Microsoft.VisualStudio.SolutionPersistence" Version="1.0.52" />
+    <PackageVersion Include="MSTest" Version="4.4.1" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="4.4.1" />
+    <PackageVersion Include="MSTest.TestFramework" Version="4.4.1" />
+    <PackageVersion Include="Siemens.AspNet.DbProvider.Contracts" Version="7.6.32" />
+    <PackageVersion Include="Siemens.AspNet.ErrorHandling" Version="7.6.32" />
+    <PackageVersion Include="Siemens.AspNet.ErrorHandling.Contracts" Version="7.6.32" />
+    <PackageVersion Include="Siemens.AspNet.MinimalApi.Sdk" Version="7.6.32" />
+    <PackageVersion Include="Siemens.AspNet.MinimalApi.Sdk.Contracts" Version="7.6.32" />
+    <PackageVersion Include="Solution.Parser" Version="5.0.1" />
+  </ItemGroup>
+</Project>

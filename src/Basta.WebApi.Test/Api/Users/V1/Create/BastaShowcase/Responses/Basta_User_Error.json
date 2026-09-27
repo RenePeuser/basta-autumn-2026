@@ -1,0 +1,51 @@
+{
+  "content": {
+    "headers": [
+      {
+        "key": "Content-Type",
+        "value": [
+          "application/problem+json"
+        ]
+      }
+    ],
+    "value": {
+      "type": "ValidationProblemDetailsExtended",
+      "title": "The JSON request body contains invalid properties",
+      "status": 422,
+      "detail": "The JSON value 'Organizer' could not be converted to UserType.",
+      "errorDetails": {
+        "userType": {
+          "currentValue": "Organizer",
+          "errors": [
+            "The JSON value 'Organizer' could not be converted to UserType."
+          ],
+          "samples": [
+            "Visitor",
+            "Developer",
+            "Speaker"
+          ],
+          "location": {
+            "row": 5,
+            "column": 25
+          }
+        }
+      },
+      "errors": {
+        "userType": [
+          "The JSON value 'Organizer' could not be converted to UserType."
+        ]
+      },
+      "RequestType": "CreateUserRequest",
+      "RequestContent": {
+        "firstName": "Basta",
+        "lastName": "2026",
+        "email": "basta@2026.local",
+        "userType": "Organizer"
+      }
+    }
+  },
+  "statusCode": "UnprocessableEntity",
+  "headers": [],
+  "trailingHeaders": [],
+  "isSuccessStatusCode": false
+}

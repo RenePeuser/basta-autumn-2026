@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <NoWarn>CA1515;CA1707;CA1054;CA1062;CA2234;MSTEST0016;CA1024</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Basta.WebApi\Basta.WebApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AspNetCore.Simple.MsTest.Sdk" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="MSTest.TestAdapter" />
+        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="**\*.json" Exclude="bin\**\*;obj\**\*" />
+        <EmbeddedResource Include="**\*.csv" Exclude="bin\**\*;obj\**\*" />
+        <EmbeddedResource Include="**\*.png" Exclude="bin\**\*;obj\**\*" />
+        <EmbeddedResource Include="**\*.xlsx" Exclude="bin\**\*;obj\**\*" />
+        <EmbeddedResource Include="**\*.txt" Exclude="bin\**\*;obj\**\*" />
+        <EmbeddedResource Include="**\*.jpg" Exclude="bin\**\*;obj\**\*" />
+        <EmbeddedResource Include="**\*.sql" Exclude="bin\**\*;obj\**\*" />
+    </ItemGroup>
+
+    <ProjectExtensions>
+        <VisualStudio>
+            <UserProperties api_4users_4v1_4create_4bastashowcase_4responses_4basta_3user_3error_1json__JsonSchema="https://api.bluebricks.co/docs/schemas/latest/bricks.schema.json" />
+        </VisualStudio>
+    </ProjectExtensions>
+
+</Project>

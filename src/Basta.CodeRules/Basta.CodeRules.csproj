@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Common settings have to be removed when pipelines works correctly with Directory.Build.props -->
+    <PropertyGroup>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+    <!--Project specific settings-->
+    <PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <NoWarn>CA1515;CA1707;CA1826</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Asp.Versioning.Abstractions" />
+        <PackageReference Include="AspNetCore.Simple.MsTest.Sdk" />
+        <PackageReference Include="Extensions.Pack" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="MSTest" />
+        <PackageReference Include="MSTest.TestAdapter" />
+        <PackageReference Include="MSTest.TestFramework" />
+        <PackageReference Include="coverlet.collector">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Siemens.AspNet.DbProvider.Contracts" />
+        <PackageReference Include="Siemens.AspNet.ErrorHandling.Contracts" />
+        <PackageReference Include="Siemens.AspNet.MinimalApi.Sdk" />
+        <PackageReference Include="Siemens.AspNet.MinimalApi.Sdk.Contracts" />
+        <PackageReference Include="Solution.Parser" />
+    </ItemGroup>
+</Project>
