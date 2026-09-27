@@ -44,6 +44,7 @@ namespace Basta.CodeRules
                     finding.Current,
                     finding.Suggested,
                     SuggestedFix = finding.Fix ?? violation.Fix,
+                    Documentation = finding.DocumentationUrl,
                     finding.Details
                 }),
                 Instructions = "Fix the code, not the rule. Do not weaken the rule, add exceptions or [Ignore] without human approval. " +

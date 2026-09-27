@@ -6,12 +6,29 @@ namespace Basta.CodeRules
     /// One violation of a CodeRule: what is wrong and where. Why and the default fix live on the rule,
     /// see <see cref="CodeRuleViolation"/>.
     /// </summary>
-    public sealed record CodeRuleFinding(string Subject,
-                                         FindingLocation? Location = null,
-                                         string? Current = null,
-                                         string? Suggested = null,
-                                         string? Fix = null,
-                                         ImmutableDictionary<string, string>? Details = null);
+    public sealed record CodeRuleFinding
+    {
+        /// <summary>What is wrong: the offending type, member, reference or package.</summary>
+        public required string Subject { get; init; }
+
+        /// <summary>Where it is. Accepts a <see cref="Solution.Parser.CSharp.CodeLocation"/> or a <see cref="FileInfo"/>.</summary>
+        public FindingLocation? Location { get; init; }
+
+        /// <summary>The offending code as it is now.</summary>
+        public string? Current { get; init; }
+
+        /// <summary>The corrected code.</summary>
+        public string? Suggested { get; init; }
+
+        /// <summary>Overrides the fix of the rule when the fix depends on this finding.</summary>
+        public string? Fix { get; init; }
+
+        /// <summary>Further reading for this finding, e.g. the docs of the API or pattern it is about. The rule documentation is added by the assert.</summary>
+        public string? DocumentationUrl { get; init; }
+
+        /// <summary>Extra "Key : value" lines.</summary>
+        public ImmutableDictionary<string, string>? Details { get; init; }
+    }
 
     /// <summary>
     /// Where a finding sits, with the path relative to the repository root so the output is the same on every machine.
@@ -37,9 +54,10 @@ namespace Basta.CodeRules
         {
             get
             {
-                var absolutePath = Path.GetFullPath(Path.Combine(RepositoryRoot.Directory.FullName, File)).Replace('\\', '/');
+                // Uri escapes '#' (e.g. "03_C#_Files"), which would otherwise start the fragment and cut the link
+                var fileUri = new Uri(Path.GetFullPath(Path.Combine(RepositoryRoot.Directory.FullName, File))).AbsoluteUri;
 
-                return Line is null ? $"file:///{absolutePath}" : $"file:///{absolutePath}:{Line}";
+                return Line is null ? fileUri : $"{fileUri}:{Line}";
             }
         }
     }

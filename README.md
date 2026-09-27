@@ -72,7 +72,7 @@ src/
 └── Basta.WebApi.Test/      Snapshot-basierte API-Tests
 ```
 
-> **Status:** Veröffentlicht sind bisher zwei Beispielregeln: Produktivprojekte dürfen keine Testprojekte referenzieren (`PROJEDCTS_RULE_001`), und Record-Properties müssen immutable sein (`RECORD_RULE_001`).
+> **Status:** Veröffentlicht sind bisher zwei Beispielregeln: Produktivprojekte dürfen keine Testprojekte referenzieren (`PROJECTS_RULE_001`), und Record-Properties müssen immutable sein (`RECORD_RULE_001`).
 > Die zugrunde liegenden Techniken zeigen die Beispiele in `CodeRules.HowTo`.
 
 ## Voraussetzungen

@@ -47,10 +47,16 @@ Only reach for raw Roslyn when the Solution.Parser model does not carry what you
 
 ### 3. Create the file
 
-- Id: next free `BASTA_RULE_<NNN>` (look at `src/Basta.CodeRules/**/BASTA_RULE_*.cs`).
-- Folder by level: `01_Solution`, `02_Projects`, `03_C#_Files`, or `04_Custom` for rules spanning levels.
+CodeRules live only in `src/Basta.CodeRules/`. `src/CodeRules.HowTo` holds examples, not rules.
+
+- Id: `<TOPIC>_RULE_<NNN>`, e.g. `RECORD_RULE_001`, `PROJECTS_RULE_001`. Reuse the topic of an existing
+  rule when it fits and take the next free number (look at `src/Basta.CodeRules/**/*_RULE_*.cs`);
+  otherwise start a new topic with `_001`.
+- Folder: one per topic, named in plain words, e.g. `Records/`, `ProjectReferences/`. The folder becomes the
+  category in the output.
 - File name and class name = rule id. One rule per file.
-- Categories: `[TestCategory("CodeRules")]` plus one specific, e.g. `[TestCategory("CodeRules Projects")]`.
+- Namespace: `Basta.CodeRules`, no sub namespace per folder.
+- Categories: `[TestCategory("CodeRules")]` plus one specific, e.g. `[TestCategory("CodeRules Records")]`.
 - Method name reads as the rule: `Productive_Projects_Are_Not_Allowed_To_Reference_Any_Test_Project`.
 
 ### 4. Write the rule - template
@@ -59,46 +65,88 @@ Collect **all** findings as `CodeRuleFinding`, then assert once with `Assert.Tha
 The rule only states *what* it checks - layout, sorting, documentation link and Human/Ai output come from
 `src/Basta.CodeRules/Findings/`. Never build the failure message as a string.
 
+Build every finding with an object initializer only - no constructor arguments, no mix of both.
+`Subject` is `required`, the compiler rejects a finding without it. All other properties are optional.
+
+#### 4a. C# declaration
+
+For anything derived from `Solution.Parser.CSharp.DeclarationBase` (type, record, property, method, field, ...)
+take `Subject`, `Location` and `Current` from the declaration, then add what carries information:
+`Suggested`, `Fix`, `DocumentationUrl`, `Details`.
+
 ```csharp
 using System.Collections.Immutable;
 using Extensions.Pack;
 
-namespace Basta.CodeRules.<Category>
+namespace Basta.CodeRules
 {
     [TestCategory("CodeRules")]
-    [TestCategory("CodeRules <Category>")]
+    [TestCategory("CodeRules Records")]
     [TestClass]
-    public class BASTA_RULE_NNN : CodeRuleTestBase
+    public class RECORD_RULE_001 : CodeRuleTestBase
     {
         [TestMethod]
-        public void Rule_Reads_Like_A_Sentence()
+        public void Record_Properties_Have_To_Be_Be_Immutable()
         {
-            var findings = from tree in ProductiveSyntaxTrees
-                           from type in tree.AllTypes()
-                           where /* violation */
-                           select new CodeRuleFinding(Subject: type.FullQualifiedName,
-                                                      Location: type.Location,        // CodeLocation or FileInfo (csproj)
-                                                      Current: type.SyntaxTree,       // optional: offending code
-                                                      Suggested: "...",               // optional: corrected code
-                                                      Fix: "...",                     // optional: overrides the rule fix
-                                                      Details: null);                 // optional: extra "Key : value" lines
+            var findings = from record in Records
+                           from property in record.Properties
+                           where property.IsReadOnly.IsFalse()
+                           select new CodeRuleFinding
+                           {
+                               Subject = property.FullQualifiedName,
+                               Location = property.Location,
+                               Current = property.SyntaxTree,
+                               Suggested = property.SyntaxTree.Replace("set;", "init;"),
+                               Details = ImmutableDictionary<string, string>.Empty.Add("Property", $"{property.Type} {property.Name}")
+                           };
 
             Assert.That.CodeRuleHasNoFindings(findings,
-                                              rule: "BASTA_RULE_NNN",
-                                              title: "<Rule in one sentence>",
-                                              because: "<why this rule exists>",
-                                              fix: "<concrete change>");
+                                              rule: "RECORD_RULE_001",
+                                              title: "Record properties must be immutable",
+                                              because: "Records are value objects. Mutable properties break value equality and make instances unsafe to share.",
+                                              fix: "Replace 'set;' with 'init;'.");
         }
     }
 }
 ```
 
+#### 4b. No declaration - project specific checks
+
+For csproj, slnx, packages or snapshot JSON there is no declaration. Same initializer, `Location` accepts a
+`CodeLocation` or a `FileInfo` (e.g. the csproj):
+
+```csharp
+select new CodeRuleFinding
+{
+    Subject = $"{project.AssemblyName} → {Path.GetFileNameWithoutExtension(include)}",   // required
+    Location = projectFile,                                                             // FileInfo of the csproj
+    Current = $"<ProjectReference Include=\"{reference.Include}\" />",
+    Fix = $"Remove the <ProjectReference> from '{projectFile.Name}'."                    // optional: overrides the rule fix
+};
+```
+
+Assert the same way with `Assert.That.CodeRuleHasNoFindings(...)` (see `ProjectReferences/PROJECTS_RULE_001.cs`).
+
+If a project specific check yields no list of findings but just one fact (e.g. "the solution contains
+exactly one Web API project", "`global.json` pins the SDK"), you may use a plain assert from
+`AspNetCore.Simple.MsTest.Sdk` instead, always with `because:` and `fix:`:
+
+```csharp
+Assert.That.IsTrue(globalJson.Exists,
+                   because: "The SDK version must be pinned so every machine and CI builds with the same SDK.",
+                   fix: "Add a global.json with 'rollForward: disable' to the repository root.");
+```
+
+As soon as a check can hit more than one element, collect `CodeRuleFinding`s instead.
+
 Finding checklist:
 
+- [ ] **shape**: object initializer only, `Subject` always set (it is `required`)
 - [ ] **what**: `Subject` names the offending element (type, member, reference, package)
 - [ ] **where**: `Location` - pass `declaration.Location` or the csproj `FileInfo`; paths become repository relative
 - [ ] **why**: `because:` - one or two sentences, once per rule
-- [ ] **fix**: `fix:` for the rule, `Fix:` on the finding when it depends on the finding; `Current` / `Suggested` for a before/after line
+- [ ] **fix**: `fix:` for the rule, `Fix` on the finding when it depends on the finding; `Current` / `Suggested` for a before/after line
+- [ ] **docs** (optional): `DocumentationUrl` on the finding for further reading about exactly this problem (API docs, pattern); the rule documentation link is added by the assert
 - [ ] rule id, category (= folder), documentation link and rule source are added by the assert
 
 Output mode: `CodeRuleSettings__OutputMode=ai` (or `TestSdkSettings__OutputMode=ai`) renders JSON for agents,
@@ -121,7 +169,7 @@ default is the framed Human output. Fixtures can catch `CodeRuleViolationExcepti
 ### 6. Verify - green AND red
 
 1. Run only the new rule:
-   `dotnet test src/Basta.CodeRules --filter "FullyQualifiedName~BASTA_RULE_NNN"`
+   `dotnet test src/Basta.CodeRules --filter "FullyQualifiedName~RECORD_RULE_001"`
 2. If it is red on the current code: the code is wrong, not the rule. Report the findings to the user;
    do not weaken the rule or add exceptions without explicit approval (see AGENTS.md).
 3. **Negative check:** temporarily introduce one violation (e.g. add a forbidden `<ProjectReference>`,

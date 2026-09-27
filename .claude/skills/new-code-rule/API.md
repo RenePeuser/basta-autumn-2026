@@ -113,5 +113,5 @@ or match on text in `Body` / `SyntaxTree` and accept the false-positive risk con
 
 ## Existing rules as reference
 
-- `src/Basta.CodeRules/04_Custom/BASTA_RULE_001.cs` - C# level: mutable record properties, with before/after sample
-- `src/Basta.CodeRules/04_Custom/BASTA_RULE_002.cs` - project level: productive projects must not reference test projects
+- `src/Basta.CodeRules/Records/RECORD_RULE_001.cs` - C# level: mutable record properties, with before/after sample
+- `src/Basta.CodeRules/ProjectReferences/PROJECTS_RULE_001.cs` - project level: productive projects must not reference test projects

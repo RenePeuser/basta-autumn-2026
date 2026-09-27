@@ -12,6 +12,7 @@
   <Folder Name="/Docs/">
     <File Path="README.md" />
     <File Path="AGENTS.md" />
+    <File Path="Basta_Autumn_2026.pptx" />
     <File Path="CLAUDE.md" />
     <File Path="LICENSE" />
   </Folder>
@@ -19,13 +20,8 @@
     <File Path="Directory.Packages.props" />
     <File Path="NuGet.Config" />
   </Folder>
-  <Folder Name="/PowerPoint/">
-    <File Path="Basta_Autumn_2026.pptx" />
-    <File Path="self-defending-code-base.jpg" />
-  </Folder>
   <Folder Name="/Roslyn/">
     <Project Path="src/Basta.Analyzer/Basta.Analyzer.csproj" />
-    <Project Path="src/Basta.CodeFixes/Basta.CodeFixes.csproj" />
   </Folder>
   <Folder Name="/SolutionItems/">
     <File Path=".editorconfig" />

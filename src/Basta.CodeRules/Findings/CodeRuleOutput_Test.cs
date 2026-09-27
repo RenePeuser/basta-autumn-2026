@@ -13,16 +13,23 @@ namespace Basta.CodeRules
     {
         private static readonly ImmutableList<CodeRuleFinding> Findings =
             [
-                new(Subject: "Basta.WebApi.UserDto.Email",
-                    Location: new FindingLocation("src/Basta.WebApi/UserDto.cs", 12),
-                    Current: "public required string Email { get; set; }",
-                    Suggested: "public required string Email { get; init; }",
-                    Details: ImmutableDictionary<string, string>.Empty.Add("Property", "string Email")),
-                new(Subject: "CodeRules.HowTo.Person.City",
-                    Location: new FindingLocation("src/CodeRules.HowTo/Person.cs", 9),
-                    Current: "public required string City { get; set; }",
-                    Suggested: "public required string City { get; init; }",
-                    Details: ImmutableDictionary<string, string>.Empty.Add("Property", "string City"))
+                new()
+                {
+                    Subject = "Basta.WebApi.UserDto.Email",
+                    Location = new FindingLocation("src/Basta.WebApi/UserDto.cs", 12),
+                    Current = "public required string Email { get; set; }",
+                    Suggested = "public required string Email { get; init; }",
+                    DocumentationUrl = "https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/init",
+                    Details = ImmutableDictionary<string, string>.Empty.Add("Property", "string Email")
+                },
+                new()
+                {
+                    Subject = "CodeRules.HowTo.Person.City",
+                    Location = new FindingLocation("src/CodeRules.HowTo/Person.cs", 9),
+                    Current = "public required string City { get; set; }",
+                    Suggested = "public required string City { get; init; }",
+                    Details = ImmutableDictionary<string, string>.Empty.Add("Property", "string City")
+                }
             ];
 
         [TestMethod]
@@ -73,7 +80,7 @@ namespace Basta.CodeRules
         public void Human_Output_Details_Only_The_First_Findings()
         {
             var manyFindings = Enumerable.Range(1, HumanCodeRuleOutput.MaxDetailedFindings + 3)
-                                         .Select(number => new CodeRuleFinding($"Subject {number:00}"))
+                                         .Select(number => new CodeRuleFinding { Subject = $"Subject {number:00}" })
                                          .ToImmutableList();
 
             var output = HumanCodeRuleOutput.Render(Violation(manyFindings));
@@ -100,6 +107,35 @@ namespace Basta.CodeRules
                                  json.RootElement.GetProperty("findings")[0].GetProperty("file").GetString(),
                                  because: "Paths are relative to the repository root so they work on every machine",
                                  fix: "Write FindingLocation.File, not the clickable absolute link");
+        }
+
+        [TestMethod]
+        public void Finding_Documentation_Url_Is_Rendered()
+        {
+            var violation = Violation(Findings);
+
+            Assert.That.Contains(HumanCodeRuleOutput.Render(violation),
+                                 "https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/init",
+                                 because: "A finding can point to further reading for exactly this problem",
+                                 fix: "Render CodeRuleFinding.DocumentationUrl as 'Docs' field in HumanCodeRuleOutput");
+
+            using var json = JsonDocument.Parse(AiCodeRuleOutput.Render(violation));
+
+            Assert.That.AreEqual("https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/init",
+                                 json.RootElement.GetProperty("findings")[0].GetProperty("documentation").GetString(),
+                                 because: "Agents need the finding documentation as well",
+                                 fix: "Serialize CodeRuleFinding.DocumentationUrl as 'documentation' in AiCodeRuleOutput");
+        }
+
+        [TestMethod]
+        public void Clickable_Link_Escapes_Special_Characters_In_The_Path()
+        {
+            var link = new FindingLocation("src/CodeRules.HowTo/03_C#_Files/Reflection_PropertyInfo_Test.cs", 9).ClickableLink;
+
+            Assert.That.EndsWith(link,
+                                 "/src/CodeRules.HowTo/03_C%23_Files/Reflection_PropertyInfo_Test.cs:9",
+                                 because: "An unescaped '#' starts the URI fragment, so the link would end at '03_C' and open nothing",
+                                 fix: "Build FindingLocation.ClickableLink with System.Uri instead of concatenating the raw path");
         }
 
         private static CodeRuleViolation Violation(ImmutableList<CodeRuleFinding> findings)

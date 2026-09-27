@@ -57,6 +57,7 @@ namespace Basta.CodeRules
                 Field(output, "Current", finding.Current);
                 Field(output, "Suggested", finding.Suggested);
                 Field(output, "Fix", finding.Fix ?? violation.Fix);
+                Field(output, "Docs", finding.DocumentationUrl);
             }
 
             if (findings.Count > MaxDetailedFindings)
