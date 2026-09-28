@@ -52,7 +52,7 @@ namespace Basta.CodeRules
                                  because: "Findings are sorted by file and line, so the output does not depend on parse order",
                                  fix: "Sort the findings in CodeRuleHasNoFindings by location, then subject");
 
-            Assert.That.AreEqual("Findings",
+            Assert.That.AreEqual("TestEnvironment",
                                  exception.Violation.Category,
                                  because: "The category is the folder of the rule file",
                                  fix: "Derive the category from the caller file path");
