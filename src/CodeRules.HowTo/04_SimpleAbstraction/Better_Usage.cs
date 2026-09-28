@@ -28,7 +28,7 @@ namespace CodeRules.HowTo
         [TestMethod]
         public void Age_Should_Be_Readonly()
         {
-            var age = _record.Properties.First(p => p.Name == "Age");
+            var age = _record.Properties.First(p => p.Name == nameof(Person.Age));
 
             Assert.That.IsTrue(age.IsReadonly,
                                because: "Properties with 'init' accessor should be detected as readonly to enforce immutability patterns",

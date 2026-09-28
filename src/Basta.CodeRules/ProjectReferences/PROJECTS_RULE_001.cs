@@ -12,7 +12,7 @@ namespace Basta.CodeRules
         {
             // ProjectReference.Name is the referenced .csproj file name without extension
             var testProjectNames = Solution.UnitTestProjects
-                                           .Select(testProject => Path.GetFileNameWithoutExtension(testProject.ProjectFileInfo.Value.Name))
+                                           .Select(testProject => testProject.AssemblyName)
                                            .ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
 
             var findings = from project in Solution.ProductiveProjects

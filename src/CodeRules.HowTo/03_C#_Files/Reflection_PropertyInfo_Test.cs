@@ -7,7 +7,7 @@ namespace CodeRules.HowTo
     {
         public required int Age { get; init; }
 
-        public required string City { get; init; }
+        public required string City { get; set; }
     }
 
     [TestClass]
@@ -17,7 +17,7 @@ namespace CodeRules.HowTo
         [TestMethod]
         public void How_To_Check_That_Age_Should_Be_Readonly()
         {
-            var ageProperty = typeof(Person).GetProperty("Age");
+            var ageProperty = typeof(Person).GetProperty(nameof(Person.Age));
 
             Assert.That.IsNotNull(ageProperty,
                                   because: "Person record must have an Age property",

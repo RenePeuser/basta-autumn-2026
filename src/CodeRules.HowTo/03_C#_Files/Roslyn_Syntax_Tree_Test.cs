@@ -31,7 +31,7 @@ namespace CodeRules.HowTo
         {
             var ageProp = _root.DescendantNodes()
                                .OfType<PropertyDeclarationSyntax>()
-                               .FirstOrDefault(p => p.Identifier.Text == "Age");
+                               .FirstOrDefault(p => p.Identifier.Text == nameof(Person.Age));
 
             Assert.That.IsNotNull(ageProp,
                                   because: "Source code must contain Age property",
@@ -41,7 +41,7 @@ namespace CodeRules.HowTo
                                   because: "Age property must have accessor list ({ get; init; })",
                                   fix: "Add accessor list to Age property");
 
-            var hasSet = ageProp.AccessorList.Accessors.Any(a => a.Keyword.Text == "set");
+           var hasSet = ageProp.AccessorList.Accessors.Any(a => a.Keyword.Text == "set");
 
             Assert.That.IsFalse(hasSet,
                                 because: "Age property is defined with { get; init; } accessor, making it readonly",

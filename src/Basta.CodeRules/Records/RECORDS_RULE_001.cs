@@ -6,7 +6,7 @@ namespace Basta.CodeRules
     [TestCategory("CodeRules")]
     [TestCategory("CodeRules Records")]
     [TestClass]
-    public class RECORD_RULE_001 : CodeRuleTestBase
+    public class RECORDS_RULE_001 : CodeRuleTestBase
     {
         [TestMethod]
         public void Record_Properties_Have_To_Be_Be_Immutable()
