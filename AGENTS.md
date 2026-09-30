@@ -32,7 +32,7 @@ The SDK version is pinned in `global.json` (`rollForward: disable`).
 | `src/Basta.WebApi` | Sample Minimal API the rules run against |
 | `src/Basta.WebApi.Test` | Snapshot-based API tests (`Requests/` + `Responses/` JSON). |
 | `src/Basta.Analyzer`, `src/Basta.CodeFixes` | Roslyn analyzer and code fixes (POC) |
-| `src/Basta.Analyzer.Test`, `src/Basta.CodeFixes.Test` | Specs for analyzer and code fixes, see their `AGENTS.md`. Not part of `code-rules.slnx` yet. |
+| `src/Basta.Analyzer.Test` | Specs for the analyzer, one scenario per file, see its `AGENTS.md`. |
 
 ## Working with CodeRules
 
@@ -40,6 +40,32 @@ The SDK version is pinned in `global.json` (`rollForward: disable`).
 - Never weaken a rule, add whitelist or exception entries, or add `[Ignore]` without explicit approval from a human. Every exception needs a reason in a comment.
 - Re-run the failing rule to verify the fix before running the full suite.
 - Set `CodeRuleSettings__OutputMode=ai` to get findings as JSON instead of the framed Human output (`TestSdkSettings__OutputMode=ai` works too and also switches the API tests).
+
+### Output Mode Configuration
+
+CodeRule test output can be switched between Human (framed console output) and AI (structured JSON) mode via environment variables:
+
+**PowerShell:**
+```powershell
+# Primary setting
+$env:CodeRuleSettings__OutputMode = 'ai'
+dotnet test src/Basta.CodeRules --filter TestCategory=CodeRules
+
+# Fallback (also switches API tests)
+$env:TestSdkSettings__OutputMode = 'ai'
+dotnet test code-rules.slnx
+```
+
+**Bash/Linux:**
+```bash
+# Primary setting
+CodeRuleSettings__OutputMode=ai dotnet test src/Basta.CodeRules --filter TestCategory=CodeRules
+
+# Fallback (also switches API tests)
+TestSdkSettings__OutputMode=ai dotnet test code-rules.slnx
+```
+
+**Priority:** `CodeRuleSettings__OutputMode` > `TestSdkSettings__OutputMode` > default (Human). Any value except "ai" (case-insensitive) results in Human mode.
 
 ## Writing a new CodeRule
 

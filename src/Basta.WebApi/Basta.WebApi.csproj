@@ -2,6 +2,11 @@
 
     <PropertyGroup>
         <NoWarn>CA1515;CA1031;CA1032;CA1062;CA1002;CA2007;CA2263;IDE0005;IDE0011;IDE0055;IDE0060;IDE0330</NoWarn>
+
+        <!-- Override Directory.Build.props: run the BASTA_* analyzers in build and editor (red squiggles).
+             The .NET analyzers stay disabled (EnableNETAnalyzers=false), so this stays cheap. -->
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,7 +16,33 @@
       <PackageReference Include="Siemens.AspNet.MinimalApi.Sdk" />
     </ItemGroup>
 
+    <!--
+      Analyzer in DEV mode: consumed straight from the project instead of a NuGet package,
+      so a change to a rule shows up with the next build, without packing and publishing.
+
+      OutputItemType="Analyzer"
+        The built Basta.Analyzer.dll is passed to the compiler as an analyzer (csc /analyzer:),
+        not as a normal assembly reference. Only then Roslyn loads the DiagnosticAnalyzer types
+        and reports their diagnostics (BASTA_*) in the build and in the IDE.
+        Without it the analyzer is compiled, but never runs.
+
+      ReferenceOutputAssembly="false"
+        The WebApi does not reference the analyzer assembly for compilation. The analyzer
+        is a build tool, not a runtimeendency:
+          - its types (analyzers, Throw, ...) are not visible to the WebApi code,
+          - the dll is not copied to bin/ and not deployed.
+
+      Keep in mind:
+        - Only the analyzer dll itself is loaded, not its dependencies (packages or projects).
+          That is why Basta.Analyzer has its own small Throw helper instead of using Argument.Check.
+        - Directory.Build.props sets RunAnalyzersDuringBuild/LiveAnalysis=false; this project
+          overrides both to true (see PropertyGroup above).
+        - The IDE caches loaded analyzer dlls. After a change to a rule, restart the IDE if the
+          new behavior does not show up in the editor.
+    -->
     <ItemGroup>
-      <ProjectReference Include="..\Basta.Analyzer\Basta.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+      <ProjectReference Include="..\Basta.Analyzer\Basta.Analyzer.csproj"
+                        OutputItemType="Analyzer" 
+                        ReferenceOutputAssembly="false" />
     </ItemGroup>
 </Project>

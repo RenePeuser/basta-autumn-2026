@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="Argument.Check" />
+        <PackageReference Include="AspNetCore.Simple.MsTest.Sdk" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="MSTest" />
         <PackageReference Include="MSTest.TestAdapter" />
@@ -19,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Using Include="AspNetCore.Simple.MsTest.Sdk" />
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
     </ItemGroup>
 

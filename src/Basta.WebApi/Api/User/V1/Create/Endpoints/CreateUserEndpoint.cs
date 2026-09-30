@@ -16,7 +16,7 @@ namespace Basta.WebApi.Api.User.V1.Create
     {
         public void Map(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapPost("users", HandleAsync)
+            endpoints.MapPost("users", Handle)
                      .Accepts<CreateUserRequest>(MediaTypeNames.Application.Json)
                      .Produces<CreateUserResponse>()
                      .Produces<ProblemDetails>(StatusCodes.Status400BadRequest)
@@ -29,21 +29,21 @@ namespace Basta.WebApi.Api.User.V1.Create
                      .Produces<ProblemDetails>(StatusCodes.Status503ServiceUnavailable)
                      .WithTags("Users")
                      .WithName("CreateUserV1");
+        }
 
-            static CreateUserResponse HandleAsync(CreateUserRequest createUserRequest,
-                                                  HttpContext httpContext,
-                                                  CancellationToken cancellationToken = default)
-            {
-                var user = new User(Guid.NewGuid(),
-                                    createUserRequest.FirstName,
-                                    createUserRequest.LastName,
-                                    createUserRequest.Email,
-                                    createUserRequest.UserType);
+        private static CreateUserResponse Handle(CreateUserRequest createUserRequest,
+                                                 HttpContext httpContext,
+                                                 CancellationToken cancellationToken = default)
+        {
+            var user = new User(Guid.NewGuid(),
+                                createUserRequest.FirstName,
+                                createUserRequest.LastName,
+                                createUserRequest.Email,
+                                createUserRequest.UserType);
 
-                var response = new CreateUserResponse(user);
+            var response = new CreateUserResponse(user);
 
-                return response;
-            }
+            return response;
         }
     }
 }

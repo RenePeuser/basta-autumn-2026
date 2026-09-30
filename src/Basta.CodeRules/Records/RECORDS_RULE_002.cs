@@ -1,3 +1,4 @@
+
 using System.Collections.Immutable;
 
 namespace Basta.CodeRules

@@ -5,7 +5,7 @@ using Basta.WebApi.Api.User.V1.Create;
 namespace Basta.WebApi.Test.Api.Users.V1.Create.BastaShowcase
 {
     [TestClass]
-    [TestCategory("Basta")]
+    [TestCategory("Api")]
     public class Basta_Show_Case_Test : ApiTestBase
     {
         [TestMethod]
@@ -17,4 +17,5 @@ namespace Basta.WebApi.Test.Api.Users.V1.Create.BastaShowcase
                                                               useCase);
         }
     }
+
 }

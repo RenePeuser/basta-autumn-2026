@@ -247,6 +247,8 @@ dotnet_diagnostic.ca1822.severity = none
 dotnet_diagnostic.ca2007.severity = warning
 dotnet_diagnostic.cs1591.severity = silent
 dotnet_diagnostic.cs1998.severity = error
+# Own analyzers: explicit, otherwise dotnet_analyzer_diagnostic.severity = warning wins.
+dotnet_diagnostic.BASTA_ASYNC_0001.severity = error
 
 # Other useful rules.
 dotnet_diagnostic.cs9107.severity = error

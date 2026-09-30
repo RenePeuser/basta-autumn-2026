@@ -6,8 +6,6 @@ namespace CodeRules.HowTo
     public record Person
     {
         public required int Age { get; init; }
-
-        public required string City { get; set; }
     }
 
     [TestClass]

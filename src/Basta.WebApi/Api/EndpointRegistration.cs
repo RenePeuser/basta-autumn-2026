@@ -9,6 +9,14 @@ namespace Basta.WebApi.Api
         void Map(IEndpointRouteBuilder versionBasePath);
     }
 
+    internal static class AddRegisterEndpointsExtension
+    {
+        internal static void AddRegisterEndpoints(this IServiceCollection services)
+        {
+            services.AddSingleton<RegisterEndpoints>();
+        }
+    }
+
     /// <summary>
     ///     Registers all endpoints that implement IEndpointRegistration.
     /// </summary>

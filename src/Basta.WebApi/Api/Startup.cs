@@ -8,7 +8,7 @@ namespace Basta.WebApi.Api
                                     IConfiguration configuration)
         {
             // Register endpoint mapper
-            services.AddSingleton<RegisterEndpoints>();
+            services.AddRegisterEndpoints();
 
             // Register domain endpoints
             services.AddUsers(configuration);

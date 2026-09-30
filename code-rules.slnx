@@ -21,6 +21,7 @@
     <File Path="NuGet.Config" />
   </Folder>
   <Folder Name="/Roslyn/">
+    <Project Path="src/Basta.Analyzer.Test/Basta.Analyzer.Test.csproj" />
     <Project Path="src/Basta.Analyzer/Basta.Analyzer.csproj" />
   </Folder>
   <Folder Name="/SolutionItems/">
