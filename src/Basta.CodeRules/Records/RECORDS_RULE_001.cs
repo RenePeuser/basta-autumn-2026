@@ -11,6 +11,8 @@ namespace Basta.CodeRules
         [TestMethod]
         public void Record_Properties_Have_To_Be_Be_Immutable()
         {
+            CodeRuleSettings.OutputMode = CodeRuleOutputMode.Ai;
+
             var findings = from record in Records
                            from property in record.Properties
                            where property.IsReadOnly.IsFalse()
@@ -27,8 +29,8 @@ namespace Basta.CodeRules
             Assert.That.CodeRuleHasNoFindings(findings,
                                               rule: "RECORD_RULE_001",
                                               title: "Record properties must be immutable",
-                                              because: "Mutable properties on records can change the values used for equality and hashing after an instance is created. This can lead to unexpected behavior, especially when the record is used as a key in a dictionary or stored in a hash set.",
-                                              fix: "Replace 'set;' with 'init;'.");
+                                              because: "A record is a snapshot of a state, e.g. data loaded from the database. It must not change while it is being processed. A setter lets any code modify the same instance, so other parts that hold a reference suddenly see different data. A change must produce a new instance instead.",
+                                              fix: "Replace 'set;' with 'init;' and create a modified copy with a 'with' expression, e.g. 'order with { Status = OrderStatus.Shipped }'.");
         }
     }
 }
