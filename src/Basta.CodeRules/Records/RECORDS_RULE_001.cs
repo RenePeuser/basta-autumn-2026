@@ -11,8 +11,6 @@ namespace Basta.CodeRules
         [TestMethod]
         public void Record_Properties_Have_To_Be_Be_Immutable()
         {
-            CodeRuleSettings.OutputMode = CodeRuleOutputMode.Ai;
-
             var findings = from record in Records
                            from property in record.Properties
                            where property.IsReadOnly.IsFalse()
