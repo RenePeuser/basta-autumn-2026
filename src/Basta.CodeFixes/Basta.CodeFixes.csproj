@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <!-- CodeFix is a plugin DLL, not a normal assembly output -->
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <!-- For distribution via NuGet (optional) / At the moment a POC -->
+        <IsPackable>false</IsPackable>
+        <NoWarn>$(NoWarn);IDE0005;IDE0002;IDE0001;IDE0022;IDE0055;IDE0160</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Argument.Check" />
+        <!-- Required for CodeFix providers -->
+        <PackageReference Include="Microsoft.CodeAnalysis" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Basta.Analyzer\Basta.Analyzer.csproj" PrivateAssets="all" />
+    </ItemGroup>
+</Project>

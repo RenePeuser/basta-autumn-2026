@@ -1,0 +1,65 @@
+<Project>
+    <PropertyGroup>
+
+        <!-- PERFORMANCE FIRST MODE / BASTA MODE -->
+
+        <!-- ManagePackageVersionsCentrally
+         Enables centralized NuGet package version management via
+         Directory.Packages.props for consistent dependency versions across the solution. -->
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+        <!-- Ultra fast design-time builds -->
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+
+        <!-- Use latest stable language features -->
+        <LangVersion>latest</LangVersion>
+        <TargetFramework>net10.0</TargetFramework>
+
+        <!-- Keep nullable for safety -->
+        <Nullable>enable</Nullable>
+
+        <!-- Keep implicit usings -->
+        <ImplicitUsings>enable</ImplicitUsings>
+
+        <!-- Deterministic still fine -->
+        <Deterministic>true</Deterministic>
+
+        <!-- Disable heavy analyzers for stage demo -->
+        <EnableNETAnalyzers>false</EnableNETAnalyzers>
+        <AnalysisMode>None</AnalysisMode>
+        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+
+        <!-- Do NOT generate XML docs locally -->
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+        <!-- Do NOT audit packages locally -->
+        <NuGetAudit>false</NuGetAudit>
+
+        <!-- Do NOT block builds on warnings during demo -->
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+        <!-- Faster globalization -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+
+        <!-- Avoid unnecessary work -->
+        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+
+    </PropertyGroup>
+
+    <!-- CI STRICT MODE -->
+    <PropertyGroup Condition="'$(CI)' == 'true'">
+
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NuGetAudit>true</NuGetAudit>
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAuditLevel>low</NuGetAuditLevel>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+
+    </PropertyGroup>
+
+</Project>
